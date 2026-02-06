@@ -1,0 +1,87 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yuk_baca_quran/helper/widget/app_txt.dart';
+import 'package:yuk_baca_quran/ui/home/cubit/home_cubit.dart';
+
+class HomeView extends StatelessWidget {
+  const HomeView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      body: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          if (state.isLoading == true) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (state.surat != null) {
+            return Padding(
+              padding: .only(left: 20, right: 20, top: 60),
+              child: Column(
+                children: [
+                  Txt('text'),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: .zero,
+                      itemBuilder: (context, index) {
+                        final surat = state.surat![index];
+                        return Container(
+                          margin: .only(bottom: 10),
+                          padding: .symmetric(horizontal: 15, vertical: 15),
+                          width: MediaQuery.sizeOf(context).width,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey[200]!),
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: .spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Txt(
+                                    "${index + 1}",
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  const SizedBox(width: 20.0),
+                                  Column(
+                                    mainAxisAlignment: .center,
+                                    crossAxisAlignment: .start,
+                                    children: [
+                                      Txt(
+                                        surat.namaLatin,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      Txt(
+                                        "${surat.arti} : ${surat.jumlahAyat} ayat",
+                                        color: Colors.grey[700],
+                                        fontSize: 12,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Txt(surat.nama, fontWeight: FontWeight.bold),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+          if (state.errorMessage != null) {
+            Center(child: Txt(state.errorMessage!));
+          }
+          return SizedBox();
+        },
+      ),
+    );
+  }
+}
