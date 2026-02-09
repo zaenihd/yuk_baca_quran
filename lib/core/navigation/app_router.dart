@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:yuk_baca_quran/ui/detail/view/detail_surat_view.dart';
 import 'package:yuk_baca_quran/ui/home/view/home_view.dart';
 import 'app_routes.dart';
 
 class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case AppRoutes.login:
+      case AppRoutes.home:
         return MaterialPageRoute(builder: (_) => HomeView());
+      case AppRoutes.detailSurat:
+        return MaterialPageRoute(
+          builder: (_) =>
+              DetailSuratView(nomerSurat: settings.arguments as int),
+        );
 
       default:
         return _errorRoute();
