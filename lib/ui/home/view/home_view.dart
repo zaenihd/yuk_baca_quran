@@ -3,11 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yuk_baca_quran/core/navigation/app_router.dart';
 import 'package:yuk_baca_quran/core/navigation/app_routes.dart';
 import 'package:yuk_baca_quran/core/navigation/navigation_service.dart';
+import 'package:yuk_baca_quran/helper/widget/app_text_form_field.dart';
 import 'package:yuk_baca_quran/helper/widget/app_txt.dart';
 import 'package:yuk_baca_quran/ui/home/cubit/home_cubit.dart';
+import 'package:yuk_baca_quran/ui/home/widget/dialog_search.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  HomeView({super.key});
+
+  final TextEditingController searchC = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +27,28 @@ class HomeView extends StatelessWidget {
               padding: .only(left: 20, right: 20, top: 60),
               child: Column(
                 children: [
+                  Row(
+                    mainAxisAlignment: .spaceBetween,
+                    children: [
+                      Txt(
+                        "Quran qu",
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (_) =>
+                                QuranSurahDialog(surat: state.surat!),
+                          );
+                        },
+                        child: Icon(Icons.search),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10.0),
                   Expanded(
                     child: ListView.builder(
                       padding: .zero,
