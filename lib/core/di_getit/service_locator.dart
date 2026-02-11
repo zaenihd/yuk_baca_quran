@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:yuk_baca_quran/core/network/dio_client.dart';
 import 'package:yuk_baca_quran/core/usecase/detail_surat_usecase.dart';
 import 'package:yuk_baca_quran/core/usecase/home_usecase.dart';
@@ -32,5 +33,8 @@ void detailSuratInit() {
   sl.registerLazySingleton<DetailSuratUsecase>(
     () => DetailSuratUsecase(repository: sl<DetailRepository>()),
   );
-  sl.registerFactory<DetailCubit>(() => DetailCubit(sl<DetailSuratUsecase>()));
+  sl.registerLazySingleton<AudioPlayer>(() => AudioPlayer());
+  sl.registerFactory<DetailCubit>(
+    () => DetailCubit(sl<DetailSuratUsecase>(), sl<AudioPlayer>()),
+  );
 }
