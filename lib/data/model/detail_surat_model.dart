@@ -1,4 +1,4 @@
-import 'package:meta/meta.dart';
+
 import 'dart:convert';
 
 DetailSurahModel detailSurahModelFromJson(String str) => DetailSurahModel.fromJson(json.decode(str));

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yuk_baca_quran/core/di_getit/service_locator.dart';
+import 'package:yuk_baca_quran/core/navigation/app_routes.dart';
+import 'package:yuk_baca_quran/core/navigation/navigation_service.dart';
 import 'package:yuk_baca_quran/helper/widget/app_txt.dart';
 import 'package:yuk_baca_quran/ui/detail/cubit/detail_cubit.dart';
 
@@ -23,6 +25,17 @@ class _DetailSuratViewState extends State<DetailSuratView> {
     return BlocProvider(
       create: (context) => sl<DetailCubit>()..getDetailSurat(widget.nomerSurat),
       child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              NavigationService.pushNamed(
+                AppRoutes.tafsir,
+                args: widget.nomerSurat,
+              );
+            },
+            icon: Icon(Icons.arrow_circle_right_sharp),
+          ),
+        ),
         body: BlocBuilder<DetailCubit, DetailState>(
           builder: (context, state) {
             if (state.isLoading == true) {
@@ -112,12 +125,12 @@ class _DetailSuratViewState extends State<DetailSuratView> {
                     },
                   ),
                   if (state.showMiniPlayer == true)
-                  _buildBottomMiniPlayer(
-                    isPause: state.isPause,
-                    namaSurah: state.dataSurat!.namaLatin,
-                    currentIndex: state.currentIndex,
-                    context: context,
-                  ),
+                    _buildBottomMiniPlayer(
+                      isPause: state.isPause,
+                      namaSurah: state.dataSurat!.namaLatin,
+                      currentIndex: state.currentIndex,
+                      context: context,
+                    ),
                 ],
               );
             }
